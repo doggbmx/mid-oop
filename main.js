@@ -1,3 +1,8 @@
+// Los objetos se guardan en la memoria HEAP
+// Los primitivos se guardan en la memoria STACK
+// lo que enrealidad se guarda en la memoria HEAP es la referencia al objeto
+// un POINTER es una referencia a un espacio en memoria
+
 const juan = {
   nombre: "Juan",
   age: 18,
