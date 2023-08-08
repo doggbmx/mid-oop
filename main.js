@@ -8,17 +8,39 @@ const juan = {
     this.approvedCourses.push(newCourse);
   },
 };
-
-console.log(Object.keys(juan));
-console.log(Object.getOwnPropertyNames(juan));
-console.log(Object.entries(juan));
-
-console.log(Object.getOwnPropertyDescriptors(juan));
-Object.defineProperty(juan, "test", {
+// no aparece con Object.keys // no se puede editar ni eliminar
+Object.defineProperty(juan, "NASA", {
   value: "extraterrestre",
   writable: false,
   enumerable: false,
   configurable: false,
 });
+// esto no se listara cuando se use Object.keys // se puede editar y eliminar
+Object.defineProperty(juan, "navigator", {
+  value: "chrome",
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});
+// se listara en Object.keys // no se puede editar y eliminar
+Object.defineProperty(juan, "editor", {
+  value: "vscode",
+  writable: false,
+  enumerable: true,
+  configurable: true,
+});
+// se lista en Object.keys // se puede editar y no se puede borrar
+Object.defineProperty(juan, "terminal", {
+  value: "bash",
+  writable: true,
+  enumerable: true,
+  configurable: false,
+});
+// todos los atributos tienen el configable en false por defecto
+Object.seal(juan);
+// todos los atributos tienen el configable y el writable en false por defecto
+Object.freeze(juan);
+console.log(Object.getOwnPropertyDescriptors(juan));
+
 // no sirve esto
 // Object.entries(juan)[3][1]("Curso 3");
