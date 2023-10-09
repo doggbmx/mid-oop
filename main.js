@@ -1,11 +1,14 @@
-// const obj1 = {
-//   a: "a",
-//   b: "b",
-//   c: {
-//     d: "d",
-//     e: "e",
-//   },
-// };
+const obj1 = {
+  a: "a",
+  b: "b",
+  c: {
+    d: "d",
+    e: "e",
+  },
+  editA() {
+    this.a = "AAA";
+  },
+};
 
 // let obj2 = {};
 
@@ -23,29 +26,39 @@
 // // pero si modificas obj1, obj4 se vera afectado
 // const obj4 = Object.create(obj1);
 
-// function recursiva() {
-//   if (/* validacion */) {
-//     return recursiva();
-//   } else {
-//     return /* valor */;
-//   }
-// }
+function isObject(subject) {
+  return typeof subject == "object";
+}
+function isArray(subject) {
+  // return typeof subject == "array";
+  return Array.isArray(subject);
+}
 
-const numeritos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-// let numerio = 0;
-// for (let index = 0; index < numeritos.length; index++) {
-//   numerio = numeritos[index];
-//   console.log({ index, numerio });
-// }
+function deepCopy(subject) {
+  let copySubject;
+  const subjectIsArray = isArray(subject);
+  const subjectIsObject = isObject(subject);
 
-// HERE GOES THE FUN PART
-
-function recursiva(arrayNumeros) {
-  if (arrayNumeros.length != 0) {
-    const firstNumber = arrayNumeros[0];
-    console.log(firstNumber);
-
-    arrayNumeros.shift();
-    recursiva(arrayNumeros);
+  if (subjectIsArray) {
+    copySubject = [];
+  } else if (subjectIsObject) {
+    copySubject = {};
+  } else {
+    return subject;
   }
+
+  for (key in subject) {
+    const keyIsObject = isObject(subject[key]);
+    if (keyIsObject) {
+      copySubject[key] = deepCopy(subject[key]);
+    } else {
+      if (subjectIsArray) {
+        copySubject.push(subject[key]);
+      } else {
+        copySubject[key] = subject[key];
+      }
+    }
+  }
+
+  return copySubject;
 }
