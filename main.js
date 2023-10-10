@@ -1,14 +1,14 @@
-const obj1 = {
-  a: "a",
-  b: "b",
-  c: {
-    d: "d",
-    e: "e",
-  },
-  editA() {
-    this.a = "AAA";
-  },
-};
+// const obj1 = {
+//   a: "a",
+//   b: "b",
+//   c: {
+//     d: "d",
+//     e: "e",
+//   },
+//   editA() {
+//     this.a = "AAA";
+//   },
+// };
 
 // let obj2 = {};
 
@@ -62,3 +62,24 @@ function deepCopy(subject) {
 
   return copySubject;
 }
+
+const studentBase = {
+  name: undefined,
+  email: undefined,
+  age: undefined,
+  approvedCourses: undefined,
+  learningPaths: undefined,
+  socialMedia: {
+    twitter: undefined,
+    instagram: undefined,
+    facebook: undefined,
+  },
+};
+
+const juan = deepCopy(studentBase);
+Object.seal(juan);
+juan.name = "Juanito";
+// Object.defineProperty(juan, "name", {
+//   value: "Juanito",
+//   writable: false,
+// });
