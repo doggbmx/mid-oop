@@ -90,8 +90,10 @@ function createStudent({
   instagram,
   facebook,
 } = {}) {
-  return {
-    name,
+  const private = {
+    _name: name,
+  };
+  const public = {
     email,
     age,
     approvedCourses,
@@ -101,7 +103,26 @@ function createStudent({
       instagram,
       facebook,
     },
+    changeName(newName) {
+      if (newName == private._name) {
+        console.log("El nuevo nombre no puede ser igual al anterior");
+      }
+      private["_name"] = newName;
+    },
+    readName() {
+      console.log(private["_name"]);
+    },
   };
+
+  Object.defineProperty(public, "readName", {
+    configurable: false,
+    writable: false,
+  });
+
+  Object.defineProperty(public, "changeName", {
+    configurable: false,
+    writable: false,
+  });
 }
 
 const juan = createStudent({
