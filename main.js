@@ -63,6 +63,81 @@ function deepCopy(subject) {
   return copySubject;
 }
 
+// class SuperObject {
+//   static isObject(subject) {
+//     return typeof subject == "object";
+//   }
+
+//   static isArray(subject) {
+//     return Array.isArray(subject);
+//   }
+
+//   static deepCopy(subject) {
+//     let copySubject;
+//     const subjectIsArray = isArray(subject);
+//     const subjectIsObject = isObject(subject);
+
+//     if (subjectIsArray) {
+//       copySubject = [];
+//     } else if (subjectIsObject) {
+//       copySubject = {};
+//     } else {
+//       return subject;
+//     }
+
+//     for (key in subject) {
+//       const keyIsObject = isObject(subject[key]);
+//       if (keyIsObject) {
+//         copySubject[key] = deepCopy(subject[key]);
+//       } else {
+//         if (subjectIsArray) {
+//           copySubject.push(subject[key]);
+//         } else {
+//           copySubject[key] = subject[key];
+//         }
+//       }
+//     }
+
+//     return copySubject;
+//   }
+// }
+//! PROTOTYPE TYPE OF THING
+function SuperObject() {}
+SuperObject.isObject = function (subject) {
+  return typeof subject == "object";
+};
+SuperObject.isArray = function (subject) {
+  return Array.isArray(subject);
+};
+SuperObject.deepCopy = function (subject) {
+  let copySubject;
+  const subjectIsArray = isArray(subject);
+  const subjectIsObject = isObject(subject);
+
+  if (subjectIsArray) {
+    copySubject = [];
+  } else if (subjectIsObject) {
+    copySubject = {};
+  } else {
+    return subject;
+  }
+
+  for (key in subject) {
+    const keyIsObject = isObject(subject[key]);
+    if (keyIsObject) {
+      copySubject[key] = deepCopy(subject[key]);
+    } else {
+      if (subjectIsArray) {
+        copySubject.push(subject[key]);
+      } else {
+        copySubject[key] = subject[key];
+      }
+    }
+  }
+
+  return copySubject;
+};
+
 function requiredParam(param) {
   throw new Error(param + " es obligatorio");
 }
@@ -75,24 +150,6 @@ function LearningPaths({ name = requiredParam("name"), courses = [] }) {
     _name: name,
     _courses: courses,
   };
-
-  // const public = {
-  //   get name() {
-  //     return private["_name"];
-  //   },
-  //   set name(newName) {
-  //     if (newName === private["_name"]) {
-  //       console.warn("El nuevo nombre no puede ser igual al anterior");
-  //     } else {
-  //       private["_name"] = newName;
-  //     }
-  //   },
-  //   get courses() {
-  //     return private["_courses"];
-  //   },
-  // };
-
-  // return public;
 }
 
 function Student({
