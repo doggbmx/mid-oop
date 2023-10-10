@@ -103,26 +103,36 @@ function createStudent({
       instagram,
       facebook,
     },
-    changeName(newName) {
-      if (newName == private._name) {
-        console.log("El nuevo nombre no puede ser igual al anterior");
+    get name() {
+      return private["_name"];
+    },
+    set name(newName) {
+      if (newName === private["_name"]) {
+        console.warn("El nuevo nombre no puede ser igual al anterior");
+      } else {
+        private["_name"] = newName;
       }
-      private["_name"] = newName;
     },
-    readName() {
-      console.log(private["_name"]);
-    },
+    // changeName(newName) {
+    //   if (newName == private._name) {
+    //     console.log("El nuevo nombre no puede ser igual al anterior");
+    //   }
+    //   private["_name"] = newName;
+    // },
+    // readName() {
+    //   console.log(private["_name"]);
+    // },
   };
 
-  Object.defineProperty(public, "readName", {
-    configurable: false,
-    writable: false,
-  });
+  // Object.defineProperty(public, "readName", {
+  //   configurable: false,
+  //   writable: false,
+  // });
 
-  Object.defineProperty(public, "changeName", {
-    configurable: false,
-    writable: false,
-  });
+  // Object.defineProperty(public, "changeName", {
+  //   configurable: false,
+  //   writable: false,
+  // });
 }
 
 const juan = createStudent({
