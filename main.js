@@ -63,21 +63,33 @@ function deepCopy(subject) {
   return copySubject;
 }
 
-// const studentBase = {
-//   name: undefined,
-//   email: undefined,
-//   age: undefined,
-//   approvedCourses: undefined,
-//   learningPaths: undefined,
-//   socialMedia: {
-//     twitter: undefined,
-//     instagram: undefined,
-//     facebook: undefined,
-//   },
-// };
-
 function requiredParam(param) {
   throw new Error(param + " es obligatorio");
+}
+
+function createLearningPaths({ name = requiredParam("name"), courses = [] }) {
+  const private = {
+    _name: name,
+    _courses: courses,
+  };
+
+  const public = {
+    get name() {
+      return private["_name"];
+    },
+    set name(newName) {
+      if (newName === private["_name"]) {
+        console.warn("El nuevo nombre no puede ser igual al anterior");
+      } else {
+        private["_name"] = newName;
+      }
+    },
+    get courses() {
+      return private["_courses"];
+    },
+  };
+
+  return public;
 }
 
 function createStudent({
@@ -92,12 +104,12 @@ function createStudent({
 } = {}) {
   const private = {
     _name: name,
+    _learningPaths: learningPaths,
   };
   const public = {
     email,
     age,
     approvedCourses,
-    learningPaths,
     socialMedia: {
       twitter,
       instagram,
@@ -113,26 +125,21 @@ function createStudent({
         private["_name"] = newName;
       }
     },
-    // changeName(newName) {
-    //   if (newName == private._name) {
-    //     console.log("El nuevo nombre no puede ser igual al anterior");
-    //   }
-    //   private["_name"] = newName;
-    // },
-    // readName() {
-    //   console.log(private["_name"]);
-    // },
+    get learningPaths() {
+      return private["_name"];
+    },
+    set learningPaths(newLP) {
+      if (!newLP.name) {
+        console.warn("Debe ser un learningPath!");
+        return;
+      } else if (!isArray(newLP.courses)) {
+        console.warn("El learningPath debe tener un array de cursos");
+        return;
+      } else {
+        private["_learningPaths"].push(newLP);
+      }
+    },
   };
-
-  // Object.defineProperty(public, "readName", {
-  //   configurable: false,
-  //   writable: false,
-  // });
-
-  // Object.defineProperty(public, "changeName", {
-  //   configurable: false,
-  //   writable: false,
-  // });
 }
 
 const juan = createStudent({
