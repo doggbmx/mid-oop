@@ -105,6 +105,11 @@ function Student({
   instagram,
   facebook,
 } = {}) {
+  const private = {
+    _name: name,
+    _learningPaths: learningPaths,
+  };
+
   this.name = name;
   this.email = email;
   this.age = age;
@@ -115,59 +120,38 @@ function Student({
     facebook,
   };
 
-  if (!isArray(learningPaths)) {
-    console.warn("El learningPath no es un array");
-    return;
-  }
-  for (learningPathIndex in learningPaths) {
-    if (!learningPaths[learningPathIndex] instanceof LearningPaths) {
-      console.warn(`El learningPath no es una instancia de LearningPaths`);
-      return;
+  Object.defineProperty(this, "learningPaths", {
+    get() {
+      return private["_learningPaths"];
+    },
+    set(newLP) {
+      if (newLP instanceof LearningPaths) {
+        private["_learningPaths"].push(newLP);
+      } else {
+        console.warn("No puedes hacer eso!");
+      }
+    },
+  });
+
+  if (isArray(learningPaths)) {
+    this._learningPaths = [];
+
+    for (learningPathIndex in learningPaths) {
+      this.learningPaths = learningPaths[learningPathIndex];
     }
   }
-  this.learningPaths = learningPaths;
-
-  const private = {
-    _name: name,
-    _learningPaths: learningPaths,
-  };
-  // const public = {
-  //   email,
-  //   age,
-  //   approvedCourses,
-  //   socialMedia: {
-  //     twitter,
-  //     instagram,
-  //     facebook,
-  //   },
-  //   get name() {
-  //     return private["_name"];
-  //   },
-  //   set name(newName) {
-  //     if (newName === private["_name"]) {
-  //       console.warn("El nuevo nombre no puede ser igual al anterior");
-  //     } else {
-  //       private["_name"] = newName;
-  //     }
-  //   },
-  //   get learningPaths() {
-  //     return private["_name"];
-  //   },
-  //   set learningPaths(newLP) {
-  //     if (!newLP.name) {
-  //       console.warn("Debe ser un learningPath!");
-  //       return;
-  //     } else if (!isArray(newLP.courses)) {
-  //       console.warn("El learningPath debe tener un array de cursos");
-  //       return;
-  //     } else {
-  //       private["_learningPaths"].push(newLP);
-  //     }
-  //   },
-  // };
+  this._learningPaths = learningPaths;
 }
 
-const juan = createStudent({
+const escuelaWeb = new LearningPaths({
+  name: "Escuela de desarrollo web",
+  courses: [
+    "Curso definitivo de HTML y CSS",
+    "Curso practico de HTML y CSS",
+    "Curso de responsive design",
+  ],
+});
+const juan = new Student({
   name: "Juan",
   email: "asd@asd.com",
   age: 18,
